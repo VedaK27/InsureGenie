@@ -11,6 +11,7 @@ import Dashboard from "./pages/Dashboard";
 import GetQuotePage from "./pages/GetQuotePage";
 import PlansPage from "./pages/PlansPage";
 import DashboardPage from "./pages/DashboardPage";
+import Gamification from "./pages/Gamification";
 
 import "./index.css";
 
@@ -68,6 +69,15 @@ function App() {
           element={
             <ProtectedRoute user={user}>
               <Dashboard user={user} setUser={setUser} />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/gamification"
+          element={
+            <ProtectedRoute user={user}>
+              <Gamification user={user} setUser={setUser} />
             </ProtectedRoute>
           }
         />
