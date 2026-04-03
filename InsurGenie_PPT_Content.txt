@@ -1,0 +1,43 @@
+=========================================
+INSURGENIE - PPT / PITCH DECK CONTENT
+=========================================
+
+SLIDE 1: TITLE SLIDE
+• Project Name: InsurGenie
+• Tagline: AI-Powered Dynamic Insurance & Reverse Underwriting
+
+SLIDE 2: THE PROBLEM WITH TRADITIONAL INSURANCE
+• Outdated Metrics: Relies heavily on static demographics (Age, Gender, Zip Code) instead of actual behavior.
+• Lack of Transparency: Users don't know exactly why their premiums are so high.
+• Zero Incentive: Safe drivers and healthy individuals are penalized to subsidize risky users, with no ongoing motivation to improve.
+
+SLIDE 3: THE INSURGENIE SOLUTION
+• Real-time AI Risk Engine: Ingests dynamic data points from wearables (Health) and vehicle telematics (Driving).
+• Dynamic Pricing Models: Calculates a continuously updating "Risk Score" (0.0 to 1.0) and assigns users to one of 7 tiers (Elite to Extreme).
+• Empowering the User: The safer they live, the less they pay.
+
+SLIDE 4: GAMIFIED DASHBOARD & REWARDS
+• Unified Ecosystem: Displays a comprehensive breakdown of Health, Driving, and Lifestyle risk metrics.
+• Financial Reinforcement: Positively framed UI highlighting "Insurance Savings" directly tied to lifestyle choices.
+• Milestone Tracking: Next savings milestones and progress bars incentivize users to stick to healthier goals.
+
+SLIDE 5: REVERSE UNDERWRITING (THE CROWN JEWEL)
+• A complete flip of conventional insurance practices.
+• Goal Setting: Users actively choose a target insurance plan tier (e.g., "I want to pay ₹799/month on the Elite Plan").
+• AI Roadmap: The AI analyzes their current data and generates a highly personalized, actionable roadmap to qualify for that rate (e.g., "Walk 8,000 steps daily," "Reduce hard braking by 15%").
+
+SLIDE 6: CONTEXT-AWARE AI CHATBOT
+• 24/7 intelligent insurance assistant built right into the dashboard.
+• Explainability: Helps users understand policy details, how their risk score was calculated, and interprets complex insurance jargon instantly.
+
+SLIDE 7: HOW IT WORKS (THE USER JOURNEY)
+1. Connect Data: Seamlessly link wearables and vehicle telematics.
+2. AI-Powered Assessment: Receive an instant, real-time risk evaluation.
+3. Monitor via Dashboard: Track health/driving scores and watch savings grow.
+4. Set Targets: Use Reverse Underwriting to chart a path to lower premiums.
+5. Re-Insure: Meet the goals and automatically unlock better rates.
+
+SLIDE 8: SUMMARY OF TECHNICAL WORK
+• Frontend: Built with React/Vite, featuring dark-mode sleek UI, dynamic routing, component-driven tables, and deep interactive states.
+• Backend/AI: FastAPI Python backend natively connected to Groq LLMs to handle complex logic securely.
+• Cloud & Data: Fully integrated Supabase environment tying user profiles with risk scores and real-time state management.

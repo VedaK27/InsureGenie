@@ -15,6 +15,7 @@ from app.auth import get_current_user
 from app.controllers.chatbot import router as chatbot_router
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel
+from app.controllers.reverse_underwriting import get_reverse_underwriting_advice
 from app.database import supabase
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
@@ -34,6 +35,10 @@ app.include_router(chatbot_router, prefix="/bot", tags=["chatbot"])
 class PointsUpdate(BaseModel):
     points: int
 
+class ReverseUnderwriteRequest(BaseModel):
+    user_id: int
+    target_plan_level: int
+
 class ActivityInput(BaseModel):
     user_id: int
     steps: int = 0
@@ -44,6 +49,11 @@ class ActivityInput(BaseModel):
 @app.get("/")
 def read_root():
     return {"message": "FastAPI backend is running"}
+
+
+@app.post("/reverse-underwrite")
+def reverse_underwrite(data: ReverseUnderwriteRequest):
+    return get_reverse_underwriting_advice(data.user_id, data.target_plan_level)
 
 
 router = APIRouter()

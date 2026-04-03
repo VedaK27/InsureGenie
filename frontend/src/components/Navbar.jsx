@@ -9,7 +9,7 @@ export default function Navbar() {
         Insur<span className="g">Genie</span>
       </Link>
       <div className="nav-links">
-        <Link to="/#how" className={pathname === "/" ? "" : ""}>
+        <Link to="/how-it-works" className={pathname === "/how-it-works" ? "active" : ""}>
           How It Works
         </Link>
         <Link to="/plans">Plans</Link>

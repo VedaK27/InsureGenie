@@ -1,98 +1,255 @@
 import { Link } from "react-router-dom";
-import { plans, planColors } from "../constants/plan";
+import { plans } from "../constants/plan";
 
 export default function PlansPage() {
   return (
-    <div style={{ paddingTop: "70px" }}>
-      <section style={{ padding: "6rem 5vw" }}>
-        <div className="section-header">
-          <div className="section-tag">Coverage Plans</div>
-          <h2 className="section-title">Pick Your Shield</h2>
-          <p className="section-sub">
-            Your plan is determined by your AI risk score — 7 tiers from Elite
-            to Extreme. The safer you live, the less you pay.
-          </p>
-        </div>
+    <div style={{
+      paddingTop: "70px",
+      backgroundColor: "#ffffff",
+      minHeight: "100vh",
+      color: "#0E1622",
+      fontFamily: "'Georgia', 'Times New Roman', serif",
+    }}>
 
-        <div className="coverage-grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))" }}>
-          {plans.map((plan) => {
-            const pc = planColors[plan.level];
-            return (
-              <div
-                key={plan.id}
-                className={`cov-card${plan.featured ? " featured" : ""}`}
-                style={plan.featured ? {} : { borderTop: `3px solid ${pc.color}` }}
-              >
-                {plan.badge && (
-                  <div className="cov-badge" style={{ background: pc.color, color: "#fff" }}>
-                    {plan.badge}
-                  </div>
-                )}
-                <div className="cov-icon">{plan.icon}</div>
-                <h3>{plan.name}</h3>
-                <div style={{ fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "0.5rem", color: pc.color }}>
-                  Risk Score {plan.riskRange}
-                </div>
-                <p>{plan.tagline}</p>
-                <div className="cov-price" style={{ color: plan.featured ? "var(--gold-light)" : "var(--navy)" }}>
-                  &#8377;{plan.premium} <span>{plan.period}</span>
-                </div>
-                {plan.discount !== 0 && (
-                  <div style={{ fontSize: "0.78rem", fontWeight: 600, marginTop: 4, color: plan.discount < 0 ? "#1a7a4a" : "#c0392b" }}>
-                    {plan.discount < 0 ? `₹${Math.abs(plan.discount)} savings vs base` : `₹${plan.discount} risk loading`}
-                  </div>
-                )}
-                <ul className="cov-features">
-                  {plan.features.map((f) => (
-                    <li key={f}><div className="check">&#10003;</div> {f}</li>
-                  ))}
-                </ul>
-                <Link to="/get-quote" className="btn-primary" style={{ marginTop: "1.5rem", display: "block", textAlign: "center", background: pc.color, color: "#fff" }}>
-                  Check My Score
-                </Link>
-              </div>
-            );
-          })}
+      {/* Hero Header */}
+      <section style={{
+        padding: "5rem 5vw 3rem",
+        maxWidth: "1200px",
+        margin: "0 auto",
+      }}>
+        <div style={{ marginBottom: "0.75rem" }}>
+          <span style={{
+            fontSize: "0.75rem",
+            fontFamily: "'Helvetica Neue', Arial, sans-serif",
+            fontWeight: "700",
+            letterSpacing: "0.18em",
+            textTransform: "uppercase",
+            color: "#E8B84B",
+          }}>
+            Coverage Tiers
+          </span>
         </div>
+        <h1 style={{
+          fontSize: "clamp(2.2rem, 5vw, 3.8rem)",
+          fontWeight: "700",
+          color: "#0E1622",
+          letterSpacing: "-1.5px",
+          lineHeight: 1.1,
+          margin: "0 0 1.5rem",
+        }}>
+          Find Your Perfect Plan
+        </h1>
+        <p style={{
+          color: "#6b7280",
+          fontSize: "1.1rem",
+          fontFamily: "'Helvetica Neue', Arial, sans-serif",
+          maxWidth: "520px",
+          lineHeight: 1.7,
+          margin: 0,
+        }}>
+          Each tier is calibrated to your risk profile. Compare plans below — or let our AI place you automatically.
+        </p>
+
+        {/* Divider */}
+        <div style={{
+          marginTop: "3rem",
+          height: "1px",
+          background: "linear-gradient(90deg, #E8B84B 0%, #e8b84b33 60%, transparent 100%)",
+        }} />
       </section>
 
-      <section style={{ padding: "4rem 5vw", background: "var(--navy-dark)" }}>
-        <div className="section-header">
-          <div className="section-tag" style={{ color: "var(--gold-light)" }}>How Tiers Work</div>
-          <h2 className="section-title" style={{ color: "#fff" }}>Your Score Decides Your Plan</h2>
-          <p className="section-sub" style={{ color: "rgba(255,255,255,0.55)" }}>
-            Our AI computes a risk score from 0 (safest) to 1 (riskiest). You are placed in the corresponding tier automatically and can move down by improving your habits.
-          </p>
+      {/* Table */}
+      <section style={{ padding: "0 5vw 5rem", maxWidth: "1200px", margin: "0 auto" }}>
+        <div style={{ overflowX: "auto" }}>
+          <table style={{
+            width: "100%",
+            borderCollapse: "collapse",
+            textAlign: "left",
+            fontSize: "0.95rem",
+            minWidth: "500px",
+            fontFamily: "'Helvetica Neue', Arial, sans-serif",
+          }}>
+            <thead>
+              <tr>
+                {["Tier", "Plan Name", "Monthly Premium", "Annual Premium"].map((heading, i) => (
+                  <th key={i} style={{
+                    padding: "14px 20px",
+                    fontWeight: "700",
+                    fontSize: "0.72rem",
+                    letterSpacing: "0.14em",
+                    textTransform: "uppercase",
+                    color: "#9ca3af",
+                    borderBottom: "1px solid #e5e7eb",
+                    whiteSpace: "nowrap",
+                  }}>
+                    {heading}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {plans.map((plan, idx) => (
+                <tr
+                  key={plan.id}
+                  style={{
+                    borderBottom: "1px solid #f3f4f6",
+                    transition: "background-color 0.15s",
+                    cursor: "default",
+                  }}
+                  onMouseEnter={e => e.currentTarget.style.backgroundColor = "#fffbf0"}
+                  onMouseLeave={e => e.currentTarget.style.backgroundColor = "transparent"}
+                >
+                  {/* Tier badge */}
+                  <td style={{ padding: "22px 20px" }}>
+                    <span style={{
+                      display: "inline-block",
+                      padding: "4px 12px",
+                      borderRadius: "999px",
+                      fontSize: "0.78rem",
+                      fontWeight: "700",
+                      letterSpacing: "0.06em",
+                      background: idx === 0
+                        ? "#fef3c7"
+                        : idx === 1
+                          ? "#fde68a"
+                          : idx === 2
+                            ? "#E8B84B"
+                            : "#0E1622",
+                      color: idx >= 3 ? "#fff" : "#92400e",
+                    }}>
+                      {plan.level}
+                    </span>
+                  </td>
+
+                  {/* Plan name */}
+                  <td style={{ padding: "22px 20px" }}>
+                    <span style={{
+                      fontFamily: "'Georgia', serif",
+                      fontWeight: "700",
+                      fontSize: "1.05rem",
+                      color: "#0E1622",
+                    }}>
+                      {plan.name}
+                    </span>
+                  </td>
+
+                  {/* Monthly */}
+                  <td style={{ padding: "22px 20px" }}>
+                    <span style={{ fontWeight: "700", color: "#0E1622", fontSize: "1.05rem" }}>
+                      ₹{plan.premium.toLocaleString()}
+                    </span>
+                    <span style={{ color: "#9ca3af", fontSize: "0.82rem", marginLeft: "4px" }}>/mo</span>
+                  </td>
+
+                  {/* Annual */}
+                  <td style={{ padding: "22px 20px" }}>
+                    <span style={{ color: "#374151", fontWeight: "500" }}>
+                      ₹{plan.annualPremium.toLocaleString()}
+                    </span>
+                    <span style={{ color: "#9ca3af", fontSize: "0.82rem", marginLeft: "4px" }}>/yr</span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-        <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem", maxWidth: 640 }}>
-          {plans.map((plan) => {
-            const pc = planColors[plan.level];
-            return (
-              <div key={plan.id} style={{ display: "flex", alignItems: "center", gap: "1rem", background: "rgba(255,255,255,0.04)", borderRadius: 12, padding: "0.85rem 1.25rem", border: "1px solid rgba(255,255,255,0.07)" }}>
-                <div style={{ fontSize: "1.4rem", width: 32, textAlign: "center" }}>{plan.icon}</div>
-                <div style={{ flex: 1 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                    <span style={{ fontWeight: 700, color: "#fff", fontSize: "0.95rem" }}>{plan.name}</span>
-                    <span style={{ fontSize: "0.7rem", fontWeight: 600, padding: "0.15rem 0.6rem", borderRadius: 50, background: pc.bg, color: pc.color }}>{plan.label}</span>
-                  </div>
-                  <div style={{ fontSize: "0.78rem", color: "rgba(255,255,255,0.4)", marginTop: 2 }}>Risk score {plan.riskRange}</div>
-                </div>
-                <div style={{ textAlign: "right" }}>
-                  <div style={{ fontWeight: 700, color: pc.color, fontSize: "1rem" }}>&#8377;{plan.premium}</div>
-                  <div style={{ fontSize: "0.7rem", color: "rgba(255,255,255,0.35)" }}>/month</div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+
+        {/* Footnote */}
+        <p style={{
+          marginTop: "1.5rem",
+          fontSize: "0.82rem",
+          color: "#9ca3af",
+          fontFamily: "'Helvetica Neue', Arial, sans-serif",
+        }}>
+          * All premiums are indicative. Final pricing determined by your risk assessment.
+        </p>
       </section>
 
-      <section className="cta-section">
-        <h2>Not Sure Which Tier? <span className="gold">Let AI Decide.</span></h2>
-        <p>Get your personalized risk score and we will place you in the right plan automatically.</p>
-        <Link to="/get-quote" className="btn-primary" style={{ fontSize: "1rem", padding: "1rem 2.5rem" }}>
-          Calculate My Score Free &#10024;
-        </Link>
+      {/* CTA Banner */}
+      <section style={{
+        background: "#0E1622",
+        padding: "5rem 5vw",
+        position: "relative",
+        overflow: "hidden",
+      }}>
+        {/* Decorative accent */}
+        <div style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          height: "3px",
+          background: "linear-gradient(90deg, #E8B84B, #f5d47a, #E8B84B)",
+        }} />
+        {/* Gold circle blur */}
+        <div style={{
+          position: "absolute",
+          right: "-80px",
+          top: "50%",
+          transform: "translateY(-50%)",
+          width: "400px",
+          height: "400px",
+          borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(232,184,75,0.12) 0%, transparent 70%)",
+          pointerEvents: "none",
+        }} />
+
+        <div style={{ maxWidth: "1200px", margin: "0 auto", display: "flex", flexWrap: "wrap", gap: "2rem", alignItems: "center", justifyContent: "space-between" }}>
+          <div style={{ maxWidth: "560px" }}>
+            <h2 style={{
+              fontFamily: "'Georgia', serif",
+              fontSize: "clamp(1.8rem, 4vw, 2.6rem)",
+              fontWeight: "700",
+              color: "#ffffff",
+              letterSpacing: "-0.5px",
+              lineHeight: 1.2,
+              margin: "0 0 1rem",
+            }}>
+              Not sure which tier?{" "}
+              <span style={{ color: "#E8B84B" }}>Let AI decide.</span>
+            </h2>
+            <p style={{
+              color: "#9ca3af",
+              fontSize: "1rem",
+              fontFamily: "'Helvetica Neue', Arial, sans-serif",
+              lineHeight: 1.7,
+              margin: 0,
+            }}>
+              Get your personalized risk score and we'll place you in the right plan automatically — in under 2 minutes.
+            </p>
+          </div>
+
+          <Link
+            to="/get-quote"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "0.6rem",
+              fontSize: "0.95rem",
+              padding: "1rem 2.2rem",
+              background: "#E8B84B",
+              color: "#0E1622",
+              fontWeight: "700",
+              borderRadius: "6px",
+              textDecoration: "none",
+              fontFamily: "'Helvetica Neue', Arial, sans-serif",
+              letterSpacing: "0.03em",
+              transition: "transform 0.2s ease, box-shadow 0.2s ease",
+              flexShrink: 0,
+              boxShadow: "0 4px 20px rgba(232,184,75,0.3)",
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.transform = "translateY(-2px)";
+              e.currentTarget.style.boxShadow = "0 8px 28px rgba(232,184,75,0.45)";
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.transform = "translateY(0)";
+              e.currentTarget.style.boxShadow = "0 4px 20px rgba(232,184,75,0.3)";
+            }}
+          >
+            Calculate My Score Free ✦
+          </Link>
+        </div>
       </section>
     </div>
   );

@@ -12,6 +12,7 @@ import GetQuotePage from "./pages/GetQuotePage";
 import PlansPage from "./pages/PlansPage";
 import DashboardPage from "./pages/DashboardPage";
 import Gamification from "./pages/Gamification";
+import HowItWorksPage from "./pages/HowItWorksPage";
 
 import "./index.css";
 
@@ -37,6 +38,8 @@ function App() {
         <Route path="/" element={<HomePage />} />
 
         <Route path="/home" element={<Home />} />
+        
+        <Route path="/how-it-works" element={<HowItWorksPage />} />
 
         {/* 🔐 Login */}
         <Route
