@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 
-class UserData(BaseModel):
+class User(BaseModel):
+
     # Lifestyle
     steps: int
     calories: int
@@ -11,7 +12,7 @@ class UserData(BaseModel):
     age: int
     male: int
     driving_exp: int
-    credit_score: float
+    credit_score: int
     mileage: int
     vehicle_owner: int
     vehicle_after_2015: int
