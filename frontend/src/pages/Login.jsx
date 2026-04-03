@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 
-function Login() {
+function Login({ setUser}) {
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -20,8 +20,9 @@ function Login() {
       console.log("User:", res.data);
       localStorage.setItem("user", JSON.stringify(res.data.user));
 
-      // Redirect to questionnaire after successful login
-      navigate("/Home");
+
+    setUser(res.data.user); // <-- set App's user state
+    navigate("/dashboard"); // <-- then navigate
     } catch (err) {
       console.error(err);
       setError("Sign-in failed. Please try again.");

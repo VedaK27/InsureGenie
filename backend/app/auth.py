@@ -38,3 +38,17 @@ def create_or_get_user(user_info):
 
     insert_res = supabase.table("users").insert(new_user).execute()
     return insert_res.data[0]
+
+def get_current_user(user_id: int):
+    res = (
+        supabase
+        .table("users")
+        .select("*")
+        .eq("id", user_id)
+        .execute()
+    )
+
+    if res.data:
+        return res.data[0]
+
+    return None
