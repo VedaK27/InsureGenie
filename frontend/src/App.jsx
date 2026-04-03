@@ -1,16 +1,23 @@
 import { Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import HomePage from "./pages/HomePage";
+import GetQuotePage from "./pages/GetQuotePage";
+import PlansPage from "./pages/PlansPage";
+import DashboardPage from "./pages/DashboardPage";
+import "./index.css";
 
-function App() {
+export default function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/dashboard" element={<Dashboard />} />
-    </Routes>
+    <>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/get-quote" element={<GetQuotePage />} />
+        <Route path="/plans" element={<PlansPage />} />
+        <Route path="/dashboard" element={<DashboardPage />} />
+      </Routes>
+      <Footer />
+    </>
   );
 }
-
-export default App;

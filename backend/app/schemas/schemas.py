@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 class UserData(BaseModel):
     # Lifestyle
@@ -21,5 +21,24 @@ class UserData(BaseModel):
     car_type: int
 
     # Health
-    bmi: float
     heart_rate: int
+
+class RiskBreakdown(BaseModel):
+    health: str
+    lifestyle: str
+    driving: str
+
+class PolicyPredictionInput(BaseModel):
+    final_score: float = Field(..., ge=0.0, le=1.0)
+    final_risk: str
+    breakdown: RiskBreakdown
+
+class PolicyPlanDetails(BaseModel):
+    level: int
+    plan: str
+    premium: float
+    discount: float
+    label: str
+
+class PolicyPredictionOutput(PolicyPredictionInput):
+    policy_plan: PolicyPlanDetails

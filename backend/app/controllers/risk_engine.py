@@ -59,7 +59,7 @@ sys.modules['__main__'].InsuranceRiskModel = InsuranceRiskModel
 # 📂 LOAD MODELS
 # =========================================================
 
-BASE_DIR = os.path.dirname(__file__)
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 def load_models():
     try:
