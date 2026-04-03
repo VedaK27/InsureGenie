@@ -1,0 +1,182 @@
+/* src/theme/theme.css */
+/* InsurGenie Design System — CSS Custom Properties */
+/* Import this once in main.jsx: import './theme/theme.css' */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap');
+
+:root {
+  /* ── Primary Blues ─────────────────────────── */
+  --color-primary-900: #0D2A5C;
+  --color-primary-800: #1A4B8C;
+  --color-primary-700: #235FA8;
+  --color-primary-600: #2E74C4;
+  --color-primary-500: #3A7BD5;
+  --color-primary-400: #5A96DF;
+  --color-primary-300: #6BA8E8;
+  --color-primary-200: #A8CCF2;
+  --color-primary-100: #D6E8FA;
+  --color-primary-50:  #EEF5FD;
+
+  /* ── Gold Accent ────────────────────────────── */
+  --color-gold-600: #C8941A;
+  --color-gold-500: #D9A428;
+  --color-gold-400: #E8B84B;
+  --color-gold-300: #F0CA72;
+  --color-gold-100: #FDF0CF;
+  --color-gold-50:  #FFFAEE;
+
+  /* ── Red Accent ─────────────────────────────── */
+  --color-red-600: #C0392B;
+  --color-red-500: #D94537;
+  --color-red-100: #FDECEA;
+
+  /* ── Neutrals ───────────────────────────────── */
+  --color-neutral-800: #1A2233;
+  --color-neutral-700: #2D3748;
+  --color-neutral-600: #4A5568;
+  --color-neutral-500: #5A6475;
+  --color-neutral-400: #7B8794;
+  --color-neutral-300: #A0AABA;
+  --color-neutral-200: #CBD5E0;
+  --color-neutral-100: #E8EDF5;
+  --color-neutral-50:  #F4F7FC;
+  --color-white:       #FFFFFF;
+
+  /* ── Semantic Text ──────────────────────────── */
+  --text-primary:   #1A2233;
+  --text-secondary: #5A6475;
+  --text-muted:     #7B8794;
+  --text-inverse:   #FFFFFF;
+  --text-link:      #3A7BD5;
+  --text-link-hover:#1A4B8C;
+
+  /* ── Semantic Backgrounds ───────────────────── */
+  --bg-page:     #FFFFFF;
+  --bg-section:  #F4F7FC;
+  --bg-card:     #FFFFFF;
+  --bg-card-alt: #EEF5FD;
+  --bg-dark:     #1A2233;
+  --bg-navbar:   #1A4B8C;
+  --bg-footer:   #1A2233;
+
+  /* ── Buttons ────────────────────────────────── */
+  --btn-primary-bg:       #3A7BD5;
+  --btn-primary-hover:    #1A4B8C;
+  --btn-primary-text:     #FFFFFF;
+  --btn-secondary-bg:     #E8B84B;
+  --btn-secondary-hover:  #C8941A;
+  --btn-secondary-text:   #1A2233;
+
+  /* ── Borders ────────────────────────────────── */
+  --border-light:   #D6E8FA;
+  --border-default: #CBD5E0;
+  --border-dark:    #A0AABA;
+
+  /* ── Status ─────────────────────────────────── */
+  --color-success:    #1E7D4E;
+  --color-success-bg: #EAF7EF;
+  --color-warning:    #C8941A;
+  --color-warning-bg: #FDF0CF;
+  --color-error:      #C0392B;
+  --color-error-bg:   #FDECEA;
+  --color-info:       #3A7BD5;
+  --color-info-bg:    #D6E8FA;
+
+  /* ── Typography ─────────────────────────────── */
+  --font-heading: 'Plus Jakarta Sans', 'Segoe UI', sans-serif;
+  --font-body:    'DM Sans', 'Segoe UI', sans-serif;
+  --font-mono:    'JetBrains Mono', 'Fira Code', monospace;
+
+  --text-xs:   0.75rem;
+  --text-sm:   0.875rem;
+  --text-base: 1rem;
+  --text-md:   1.125rem;
+  --text-lg:   1.25rem;
+  --text-xl:   1.5rem;
+  --text-2xl:  1.875rem;
+  --text-3xl:  2.25rem;
+  --text-4xl:  3rem;
+
+  /* ── Spacing ────────────────────────────────── */
+  --space-1:  0.25rem;
+  --space-2:  0.5rem;
+  --space-3:  0.75rem;
+  --space-4:  1rem;
+  --space-5:  1.25rem;
+  --space-6:  1.5rem;
+  --space-8:  2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+
+  /* ── Border Radius ──────────────────────────── */
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-lg:   12px;
+  --radius-xl:   16px;
+  --radius-2xl:  24px;
+  --radius-full: 9999px;
+
+  /* ── Shadows ────────────────────────────────── */
+  --shadow-sm:     0 1px 3px rgba(26, 75, 140, 0.08);
+  --shadow-md:     0 4px 12px rgba(26, 75, 140, 0.12);
+  --shadow-lg:     0 8px 24px rgba(26, 75, 140, 0.16);
+  --shadow-xl:     0 16px 40px rgba(26, 75, 140, 0.20);
+  --shadow-card:   0 2px 8px rgba(26, 75, 140, 0.10);
+  --shadow-button: 0 2px 6px rgba(58, 123, 213, 0.35);
+  --shadow-gold:   0 4px 16px rgba(200, 148, 26, 0.30);
+
+  /* ── Transitions ────────────────────────────── */
+  --transition-fast:   150ms ease;
+  --transition-normal: 250ms ease;
+  --transition-slow:   400ms ease;
+  --transition-bounce: 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* ── Z-index ────────────────────────────────── */
+  --z-base:     0;
+  --z-raised:   10;
+  --z-dropdown: 200;
+  --z-sticky:   300;
+  --z-overlay:  400;
+  --z-modal:    500;
+  --z-toast:    600;
+}
+
+/* ── Base resets using theme tokens ─────────────────────────────────────── */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--text-primary);
+  background-color: var(--bg-page);
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+a {
+  color: var(--text-link);
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--text-link-hover);
+}
