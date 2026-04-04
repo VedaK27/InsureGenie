@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation} from "react-router-dom";
 import { useState } from "react";
 
 import Navbar from "./components/Navbar";
@@ -15,6 +15,9 @@ import Gamification from "./pages/Gamification";
 
 import "./index.css";
 
+import AdminDashboard from "./pages/AdminDashboard";
+
+
 // 🔒 Protected Route
 function ProtectedRoute({ user, children }) {
   if (!user) {
@@ -24,16 +27,22 @@ function ProtectedRoute({ user, children }) {
 }
 
 function App() {
+  const location = useLocation();
   const [user, setUser] = useState(() => {
     const saved = localStorage.getItem("user");
     return saved ? JSON.parse(saved) : null;
   });
 
+  const isAdminPage = location.pathname === "/admin";
+
   return (
     <>
-      <Navbar user={user} setUser={setUser} />
+       {!isAdminPage && <Navbar user={user} setUser={setUser} />}
+      
 
       <Routes>
+
+        
         <Route path="/" element={<HomePage />} />
 
         <Route path="/home" element={<Home />} />
@@ -92,11 +101,16 @@ function App() {
           }
         />
 
-        {/* ❌ Catch all */}
+         
+        <Route path="/admin" element={<AdminDashboard />} />
+
+       
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
 
-      <Footer />
+      {!isAdminPage && <Footer />}
+      
+      
     </>
   );
 }
