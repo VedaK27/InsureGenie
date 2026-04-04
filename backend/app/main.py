@@ -85,9 +85,11 @@ def predict_policy(
             policy_plan_id=policy["level"],
             risk_score=risk_score,
             premium=policy["premium"],
-            discount=policy["discount"],  
-            breakdown=risk_result["breakdown"]
-
+            discount=policy["discount"],
+            breakdown=risk_result["breakdown"],
+            health_score=risk_result["health_score"],
+            lifestyle_score=risk_result["lifestyle_score"],
+            driving_score=risk_result["driving_score"]
         )
 
         return {
@@ -95,7 +97,10 @@ def predict_policy(
             "final_score": risk_score,
             "final_risk": risk_result["final_risk"],
             "policy_plan": policy,
-            "breakdown": risk_result["breakdown"]
+            "breakdown": risk_result["breakdown"],
+            "health_score": risk_result["health_score"],
+            "lifestyle_score": risk_result["lifestyle_score"],
+            "driving_score": risk_result["driving_score"]
         }
 
     except Exception as e:
@@ -232,19 +237,33 @@ def get_policy_card(user_id: int):
     # 6. Risk score → label
     risk_level = risk_score_to_level(premium["risk_score"])
 
+    # 7. Parse sub-risk labels from DB → numeric for dashboard display
+    def _label_to_numeric(val, default=0.5):
+        try:
+            return float(val)
+        except (TypeError, ValueError):
+            pass
+        label = str(val).lower().strip()
+        if label == "low":
+            return 0.2
+        elif label == "medium":
+            return 0.5
+        elif label == "high":
+            return 0.85
+        return default
+
     return {
         "user_name":         user_name,
         "plan_name":         plan["name"],
         "monthly_premium":   f"₹{plan['cost']}/month",
         "next_renewal":      next_renewal.strftime("%b %d, %Y"),
-        "risk_score":        round(premium["risk_score"], 2),
+        "risk_score":        round(premium["risk_score"], 4),
         "risk_level":        risk_level,
         "wellness_points":   wellness["score"],
         "insurance_savings": f"₹{wellness['reward']} saved",
-        "health_risk":       premium["health_risk"] ,
-        "lifestyle_risk":    premium["lifestyle_risk"],
-        "driving_risk":      premium["driving_risk"]
-    
+        "health_risk":       _label_to_numeric(premium["health_risk"]),
+        "lifestyle_risk":    _label_to_numeric(premium["lifestyle_risk"]),
+        "driving_risk":      _label_to_numeric(premium["driving_risk"])
     }
 
 app.include_router(router)

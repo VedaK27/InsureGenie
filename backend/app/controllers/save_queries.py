@@ -93,7 +93,10 @@ def save_premium(
     risk_score: float,
     premium: int,
     discount: int,
-    breakdown: dict
+    breakdown: dict,
+    health_score: float = 0.0,
+    lifestyle_score: float = 0.0,
+    driving_score: float = 0.0
 ):
 
     query = text("""
@@ -123,15 +126,17 @@ def save_premium(
     )
     """)
 
-    # ✅ FIRST calculate points
+    # ✅ Calculate points from risk_score
     points = int((1 - risk_score) * 100)
 
-    # ✅ THEN convert breakdown (PUT HERE 👇)
-    health = breakdown["health"].lower()
-    lifestyle = breakdown["lifestyle"].lower()
-    driving = breakdown["driving"].lower()
-
-   
+    # ✅ Convert numeric sub-scores to categorical labels for DB CHECK constraint
+    def _to_label(score):
+        if score <= 0.35:
+            return "low"
+        elif score <= 0.65:
+            return "medium"
+        else:
+            return "high"
 
     # ✅ THEN execute
     db.execute(query, {
@@ -141,9 +146,9 @@ def save_premium(
         "premium_amount": premium,
         "discount_amount": discount,
         "points": points,
-        "health_risk": health,
-        "lifestyle_risk": lifestyle,
-        "driving_risk": driving
+        "health_risk": _to_label(health_score),
+        "lifestyle_risk": _to_label(lifestyle_score),
+        "driving_risk": _to_label(driving_score)
         
     })
 

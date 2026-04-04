@@ -299,7 +299,6 @@ export default function HowItWorksPage() {
 
         {/* Hero */}
         <div className="hiw-hero">
-          <div className="hiw-tag">How It Works</div>
           <h1 className="hiw-h1">
             Insurance built around<br /><em>your reality</em>
           </h1>

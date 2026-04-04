@@ -106,12 +106,80 @@ def convert_to_score(label):
 
 
 # =========================================================
+# 🚀 CONTINUOUS NUMERIC SUB-SCORE HELPERS
+# =========================================================
+
+def _health_score(bmi: float, heart_rate: int) -> float:
+    """Continuous health risk score (0 = healthy, 1 = risky)."""
+    # BMI risk: distance from ideal 22, scaled so ±15 from ideal → 1.0
+    bmi_risk = min(1.0, abs(bmi - 22.0) / 15.0)
+    # Heart-rate risk: distance from ideal 70, scaled so ±50 → 1.0
+    hr_risk = min(1.0, abs(heart_rate - 70) / 50.0)
+    return bmi_risk * 0.5 + hr_risk * 0.5
+
+
+def _lifestyle_score(steps: int, calories: int, active_min: int, sedentary_min: int) -> float:
+    """Continuous lifestyle risk score (0 = active/healthy, 1 = sedentary/risky)."""
+    steps_good     = min(1.0, steps / 10000)
+    calories_good  = min(1.0, calories / 2500)
+    active_good    = min(1.0, active_min / 60)
+    sedentary_bad  = min(1.0, sedentary_min / 960)  # 16 h as ceiling
+
+    # Higher "good" values → lower risk
+    score = 1.0 - (
+        0.35 * steps_good +
+        0.25 * calories_good +
+        0.25 * active_good +
+        0.15 * (1.0 - sedentary_bad)
+    )
+    return max(0.0, min(1.0, score))
+
+
+def _driving_score(speeding: int, accidents: int, driving_exp: int,
+                   credit_score: float, duis: int) -> float:
+    """Continuous driving risk score (0 = safe, 1 = risky)."""
+    speeding_risk  = min(1.0, speeding * 0.15)
+    accident_risk  = min(1.0, accidents * 0.25)
+    exp_risk       = max(0.0, min(1.0, (15 - driving_exp) / 15.0))
+    credit_risk    = max(0.0, min(1.0, (750 - credit_score) / 400.0))
+    dui_risk       = min(1.0, duis * 0.35)
+
+    score = (
+        0.25 * speeding_risk +
+        0.30 * accident_risk +
+        0.20 * exp_risk +
+        0.15 * credit_risk +
+        0.10 * dui_risk
+    )
+    return max(0.0, min(1.0, score))
+
+
+# =========================================================
 # 🚀 MAIN FUNCTION
 # =========================================================
 
 def calculate_final_risk(data):
 
-    # ---------------- Lifestyle ----------------
+    # ── Continuous numeric sub-scores from raw inputs ──────────────
+    health_numeric   = _health_score(data.bmi, data.heart_rate)
+    lifestyle_numeric = _lifestyle_score(
+        data.steps, data.calories,
+        data.active_minutes, data.sedentary_minutes
+    )
+    driving_numeric  = _driving_score(
+        data.speeding, data.accidents,
+        data.driving_exp, data.credit_score, data.duis
+    )
+
+    # ── Weighted final score ──────────────────────────────────────
+    final_score = (
+        0.35 * health_numeric +
+        0.30 * lifestyle_numeric +
+        0.35 * driving_numeric
+    )
+
+    # ── Categorical labels (from ML models, kept for display) ─────
+    # Lifestyle
     try:
         lifestyle_input = pd.DataFrame({
             "TotalSteps": [data.steps],
@@ -119,63 +187,36 @@ def calculate_final_risk(data):
             "VeryActiveMinutes": [data.active_minutes],
             "SedentaryMinutes": [data.sedentary_minutes]
         })
-
         lifestyle_pred = lifestyle_model.predict(lifestyle_input)[0] if lifestyle_model else "Medium"
     except Exception as e:
-        print("⚠️ Lifestyle error:", e)
+        print("⚠️ Lifestyle model error:", e)
         lifestyle_pred = "Medium"
 
-    lifestyle_score = convert_to_score(lifestyle_pred)
-
-
-    # ---------------- Driving ----------------
+    # Driving
     try:
         driving_input = [[
-            data.age,
-            data.male,
-            data.driving_exp,
-            data.credit_score,
-            data.mileage,
-            data.vehicle_owner,
-            data.vehicle_after_2015,
-            data.speeding,
-            data.duis,
-            data.accidents,
-            data.car_type
+            data.age, data.male, data.driving_exp,
+            data.credit_score, data.mileage, data.vehicle_owner,
+            data.vehicle_after_2015, data.speeding, data.duis,
+            data.accidents, data.car_type
         ]]
-
         driving_pred = driving_model.predict(driving_input)[0] if driving_model else "Medium"
     except Exception as e:
-        print("⚠️ Driving error:", e)
+        print("⚠️ Driving model error:", e)
         driving_pred = "Medium"
 
-    driving_score = convert_to_score(driving_pred)
-
-
-    # ---------------- Health ----------------
+    # Health
     try:
         health_input = pd.DataFrame({
             "bmi": [data.bmi],
             "heart_rate": [data.heart_rate]
         })
-
         health_pred = health_model.predict(health_input)[0] if health_model else "Medium"
     except Exception as e:
-        print("⚠️ Health error:", e)
+        print("⚠️ Health model error:", e)
         health_pred = "Medium"
 
-    health_score = convert_to_score(health_pred)
-
-
-    # ---------------- FINAL SCORE ----------------
-    final_score = (
-        0.5 * health_score +
-        0.3 * lifestyle_score +
-        0.2 * driving_score
-    )
-
-
-    # ---------------- FINAL LABEL ----------------
+    # ── Final label ───────────────────────────────────────────────
     if final_score < 0.4:
         final_label = "Low"
     elif final_score < 0.7:
@@ -183,10 +224,15 @@ def calculate_final_risk(data):
     else:
         final_label = "High"
 
+    print(f"🔢 Sub-scores → health={health_numeric:.3f}  lifestyle={lifestyle_numeric:.3f}  driving={driving_numeric:.3f}")
+    print(f"🔢 Final score = {final_score:.4f}  →  {final_label}")
 
     return {
-        "final_score": round(final_score, 2),
+        "final_score": round(final_score, 4),
         "final_risk": final_label,
+        "health_score": round(health_numeric, 4),
+        "lifestyle_score": round(lifestyle_numeric, 4),
+        "driving_score": round(driving_numeric, 4),
         "breakdown": {
             "health": str(health_pred),
             "lifestyle": str(lifestyle_pred),

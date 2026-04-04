@@ -22,7 +22,7 @@ function Login({ setUser}) {
 
 
     setUser(res.data.user); // <-- set App's user state
-    navigate("/dashboard"); // <-- then navigate
+    navigate("/dashboard-Page"); // <-- then navigate
     } catch (err) {
       console.error(err);
       setError("Sign-in failed. Please try again.");

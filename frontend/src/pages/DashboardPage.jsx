@@ -5,22 +5,18 @@ import InsuranceBot from "./InsuranceBot";
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
 const riskToPercent = (risk) => {
-  switch ((risk || "").toLowerCase()) {
-    case "low": return 30;
-    case "medium": return 60;
-    case "high": return 90;
-    default: return 0;
-  }
+  // risk is now a numeric float 0.0 – 1.0
+  const v = typeof risk === "number" ? risk : parseFloat(risk) || 0;
+  return Math.round(v * 100);
 };
 
 const riskColor = (risk) => {
-  switch ((risk || "").toLowerCase()) {
-    case "low": return "#4caf50";
-    case "medium": return "#ff9800";
-    case "high": return "#f44336";
-    default: return "#7B8794";
-  }
+  const v = typeof risk === "number" ? risk : parseFloat(risk) || 0;
+  if (v <= 0.3) return "#4caf50";
+  if (v <= 0.6) return "#ff9800";
+  return "#f44336";
 };
+
 
 const PLAN_NAME_TO_LEVEL = {
   Elite: 1, Pro: 2, Advanced: 3, Guarded: 4, Risky: 5, Critical: 6, Extreme: 7,
@@ -581,7 +577,7 @@ export default function DashboardPage({ user }) {
                 <div key={row.label} style={{ marginBottom: "1rem" }}>
                   <div style={{ display: "flex", justifyContent: "space-between", color: "white", fontSize: "0.85rem", marginBottom: 4 }}>
                     <span>{row.label}</span>
-                    <span style={{ textTransform: "capitalize", opacity: 0.7 }}>{row.value}</span>
+                    <span style={{ textTransform: "capitalize", opacity: 0.7 }}>{(typeof row.value === "number" ? (row.value * 100).toFixed(1) : row.value)}%</span>
                   </div>
                   <div style={{ background: "rgba(255,255,255,0.1)", height: 6, borderRadius: 4 }}>
                     <div style={{ width: `${row.pct}%`, background: row.color, height: 6, borderRadius: 4, transition: "width 0.5s ease" }} />

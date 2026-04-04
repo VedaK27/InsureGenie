@@ -1,4 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
+import logo from "../assets/logo/logo.png";
 
 export default function Navbar() {
   const { pathname } = useLocation();
@@ -6,6 +7,11 @@ export default function Navbar() {
   return (
     <nav className="navbar">
       <Link className="nav-logo" to="/">
+       <img 
+  src={logo} 
+  alt="InsurGenie logo" 
+  style={{ width: "60px", height: "60px", marginRight: "5px" }} 
+/>
         Insur<span className="g">Genie</span>
       </Link>
       <div className="nav-links">
